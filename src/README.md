@@ -1,7 +1,7 @@
 ###Lab 6: Collections
 ##### 30 points
 
-##### Due: ?
+##### Due: Sunday, Oct 25, 11:59pm
 
 For this exercise, I've provided some starter code. You should feel free to extend or modify it as necessary. You might want to add inner classes, additional helper methods, or instance variables. That's all fine.
 
