@@ -1,4 +1,5 @@
-###Lab 6: Collections
+### Lab 6: Collections
+
 ##### 30 points
 
 ##### Due: Sunday, Oct 25, 11:59pm
