@@ -1,35 +1,53 @@
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class SetOperationsTest {
-    SetOperations test = new SetOperations();
+    SetOperations test;
+    Processor proc;
+    File spamfolder;
+    File hamfolder;
+    Set<String> spam;
+    Set<String> ham;
 
     @BeforeEach
     void setUp() {
-        Set<String> s1 = new HashSet<>();
-        Set<String> s2 = new HashSet<>();
-        s1.add("dog");
-        s2.add("cat");
+        test = new SetOperations();
+        proc = new Processor();
+        spamfolder = new File("spam");
+        spam = new HashSet<>();
+        hamfolder = new File("ham");
+        ham = new HashSet<>();
+        for (String filename: spamfolder.list()) {
+            proc.setFilename("spam/" + filename);
+            spam.addAll(proc.parseFile());
+        }
+        for (String filename: hamfolder.list()) {
+            proc.setFilename("ham/" + filename);
+            ham.addAll(proc.parseFile());
+        }
+        System.out.println(spam);
+        System.out.println(ham);
     }
 
-    @org.junit.jupiter.api.Test
-    void Union() {
-        Set<String> s1 = new HashSet<>();
-        Set<String> s2 = new HashSet<>();
-        s1.add("dog");
-        s2.add("cat");
-        Set<String> s3 = test.Union(s1, s2);
-        System.out.println(s3);
-
+    @Test
+    void union() {
+        System.out.println(test.Union(spam, ham));
     }
 
-    @org.junit.jupiter.api.Test
-    void Intersection() {
+    @Test
+    void intersection() {
+        System.out.println(test.Intersection(ham, spam));
     }
 
-
+    @Test
+    void difference() {
+        System.out.println(test.Difference(ham, spam));
+    }
 }

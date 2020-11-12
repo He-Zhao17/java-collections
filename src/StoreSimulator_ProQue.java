@@ -1,11 +1,11 @@
 import java.util.*;
 
 
-public class StoreSimulator {
+public class StoreSimulator_ProQue {
 
     public Random generator;
 
-    public StoreSimulator() {
+    public StoreSimulator_ProQue() {
         generator = new Random();
     }
 
@@ -40,9 +40,15 @@ public class StoreSimulator {
 
 
     public List<Integer> simulate(int nIterations, int nQueues, int maxdura, int narrivals) {
+        Comparator<Task> cpt = new Comparator<Task>() {
+            @Override
+            public int compare(Task o1, Task o2) {
+                return o2.arrivalTime - o1.arrivalTime;
+            }
+        };
         LinkedList<Queue<Task>> qs = new LinkedList<>();
         for (int i = 0; i < nQueues; i++) {
-            Queue<Task> temp = new LinkedList<>();
+            Queue<Task> temp = new PriorityQueue<>(cpt);
             qs.add(temp);
         }
         Comparator<Queue<Task>> cpq = new Comparator<Queue<Task>>() {
@@ -57,36 +63,13 @@ public class StoreSimulator {
         List<Task> newArrivals;
         List<Integer> re = new ArrayList<>();
 
-
         for (int i = 0; i < nIterations; i++) {
-            // some customers get frustrated and leave
-            /*
-            Iterator<Task> it;
-            for (Queue<Task> t: qs) {
-                it = t.iterator();
-                while (it.hasNext()) {
-                    if (i - it.next().arrivalTime >= 7) {
-                        it.remove();
-                    }
-                }
-            }
-             */
-            //---------
 
             /* get the new customers and add them to the queue */
             newArrivals = getNewArrivals(i, maxdura, narrivals);
             for (Task t : newArrivals) {
-                //int index = gen.nextInt(qs.size());
                 qs.get(0).add(t);
                 Collections.sort(qs, cpq);
-                /*
-                if (t.duration <3) {
-                    qs.get(0).add(t);
-                } else {
-                    qs.get(1).add(t);
-                }
-
-                 */
             }
 
             /* check to see if the person at the front of the queue is done */
@@ -97,16 +80,15 @@ public class StoreSimulator {
                     re.add(i - done.arrivalTime);
                 }
             }
+
         }
         return re;
     }
 
 
     public static void main(String[] args) {
-        StoreSimulator st;
-        List<Integer> throughout;
-        st = new StoreSimulator();
-        throughout = st.simulate(500,2,5, 5);
+        StoreSimulator st = new StoreSimulator();
+        List<Integer> throughout = st.simulate(500,2,15,3);
         int sum = 0;
         int min = throughout.get(0);
         int max = throughout.get(0);
@@ -123,6 +105,8 @@ public class StoreSimulator {
         double num = (double) throughout.size();
         double ave = sumd / num;
         System.out.println("Max throughout: " + max + "\nMin throughout: " + min + "\nAverage throughout: " + ave);
+
+
 
     }
 }
