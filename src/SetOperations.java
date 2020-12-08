@@ -20,7 +20,7 @@ public class SetOperations {
     public static Set<String> Intersection(Set<String> s1, Set<String> s2) {
         Set<String> s3 = new HashSet<>();
         s3.addAll(s1);
-        s3.removeAll(s3);
+        s3.removeAll(s3); // cb - this should be retainAll() - you're just removing everything that was already in the set.
         return s3;
     }
 
